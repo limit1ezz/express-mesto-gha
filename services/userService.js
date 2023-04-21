@@ -14,12 +14,7 @@ module.exports.createUser = async (validatedUser) => {
 
 module.exports.getUsers = async () => {
   const users = await User.find({});
-
-  if (!users || users.length === 0) {
-    throw CreateError.notFound(messages.NOT_FOUND_USERS);
-  } else {
-    return users;
-  }
+  return users;
 };
 
 module.exports.getUser = async (userId) => {

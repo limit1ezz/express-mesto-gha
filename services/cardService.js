@@ -15,12 +15,7 @@ module.exports.createCard = async (validatedCard) => {
 
 module.exports.getCards = async () => {
   const cards = await Card.find({});
-
-  if (!cards || cards.length === 0) {
-    throw CreateError.notFound(messages.NOT_FOUND_CARDS);
-  } else {
-    return cards;
-  }
+  return cards;
 };
 
 module.exports.deleteCard = async (cardId, userId) => {
