@@ -5,6 +5,8 @@ const allRoutes = require('./routes/allRoutes');
 const errorHandler = require('./middlewares/errorHandler');
 const config = require('./configurations/config');
 const loger = require('./middlewares/logger');
+const limiter = require('./middlewares/limiter');
+const configureHelmet = require('./middlewares/helmet');
 
 require('dotenv').config();
 
@@ -19,6 +21,8 @@ app.use(loger);
 // Configure middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(limiter);
+configureHelmet(app);
 
 // Configure user ID
 app.use((req, res, next) => {

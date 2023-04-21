@@ -1,7 +1,7 @@
 const { messages, codes } = require('../utils/constants');
 const CreateError = require('../utils/CreateError');
 
-const errorHandler = (error, req, res) => {
+const errorHandler = (error, req, res, next) => {
   if (error.name === 'ValidationError') {
     return res.status(codes.BAD_REQUEST).json({
       message: messages.VALIDATION_ERROR,
@@ -14,6 +14,7 @@ const errorHandler = (error, req, res) => {
   }
 
   res.status(codes.SERVER_ERROR).json({ message: messages.SERVER_ERROR });
+  next();
 };
 
 module.exports = errorHandler;
