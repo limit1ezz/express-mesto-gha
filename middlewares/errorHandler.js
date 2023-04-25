@@ -9,6 +9,10 @@ const errorHandler = (error, req, res, next) => {
     });
   }
 
+  if (error.code === 11000) {
+    return res.status(codes.CONFLICT).json({ message: messages.EMAIL_EXISTS });
+  }
+
   if (error instanceof CreateError) {
     return res.status(error.code).json({ message: error.message });
   }

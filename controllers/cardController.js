@@ -6,6 +6,7 @@ module.exports.createCard = async (req, res) => {
   const validatedCard = await newCardSchema.validateAsync(req.body, {
     abortEarly: false,
   });
+
   const card = await cardService.createCard({
     ...validatedCard,
     owner: req.user._id,

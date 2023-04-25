@@ -26,7 +26,7 @@ module.exports.deleteCard = async (cardId, userId) => {
   }
 
   if (card.owner.toString() !== userId) {
-    throw CreateError.unauthorized(messages.UNAUTHORIZED_ERROR);
+    throw CreateError.forbidden(messages.FORBIDDEN_ERROR);
   }
 
   await Card.findByIdAndRemove(cardId);

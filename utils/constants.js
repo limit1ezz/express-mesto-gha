@@ -3,14 +3,16 @@ module.exports.codes = {
   BAD_REQUEST: 400,
   SERVER_ERROR: 500,
   NOT_FOUND: 404,
-  UNAUTHORIZED: 403,
+  FORBIDDEN: 403,
   DELETED: 204,
+  UNAUTHORIZED: 401,
+  CONFLICT: 409,
 };
 
 module.exports.messages = {
   SERVER_ERROR: 'На сервере произошла ошибка',
   VALIDATION_ERROR: 'Переданы некорректные данные',
-  UNAUTHORIZED_ERROR: 'Удаление чужих карточек запрещено',
+  FORBIDDEN_ERROR: 'Удаление чужих карточек запрещено',
   USER_CREATED: 'Пользователь успешно создан',
   CARD_CREATED: 'Карточка успешно создана',
   CARD_DELETED: 'Карточка успешно удалена',
@@ -25,6 +27,12 @@ module.exports.messages = {
   NOT_FOUND_PAGE: 'Страница не найдена',
   CARD_LIKED: 'Лайк поставлен',
   CARD_DISLIKED: 'Лайк удален',
+  NOT_VALID_URL:
+    'Hе является допустимым URL. Пример: http(s)://(www.)domain.com',
+  NOT_VALID_EMAIL: 'Hе является допустимым EMAIL. Пример: example@domain.com',
+  UNAUTHORIZED_LOGIN: 'Неверная почта или пароль',
+  UNAUTHORIZED_ERROR: 'Необходима авторизация',
+  EMAIL_EXISTS: 'Пользователь с таким email уже существует',
 };
 
 module.exports.regexp = {
