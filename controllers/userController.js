@@ -1,22 +1,13 @@
 const userService = require('../services/userService');
 const tokenService = require('../services/tokenService');
 
-const { messages, codes } = require('../utils/constants');
-const {
-  userInfoSchema,
-  userIdSchema,
-  newUserSchema,
-  userAvatarSchema,
-  loginSchema,
-} = require('../schemas/userSchemas');
+const { codes } = require('../utils/constants');
 
 module.exports.createUser = async (req, res) => {
-  const validatedUser = await newUserSchema.validateAsync(req.body, {
-    abortEarly: false,
-  });
-
-  const user = await userService.createUser(validatedUser);
-  res.status(codes.CREATED).json({ message: messages.USER_CREATED, user });
+  const user = await userService.createUser(req.body);
+  res
+    .status(codes.CREATED)
+    .json({ message: 'Пользователь успешно создан', user });
 };
 
 module.exports.getUsers = async (req, res) => {
@@ -25,39 +16,24 @@ module.exports.getUsers = async (req, res) => {
 };
 
 module.exports.getUser = async (req, res) => {
-  const userId = await userIdSchema.validateAsync(req.params.userId, {
-    abortEarly: false,
-  });
-
-  const user = await userService.getUser(userId);
+  const user = await userService.getUser(req.params.userId);
   res.json(user);
 };
 
 module.exports.updateUser = async (req, res) => {
-  const validatedUserInfo = await userInfoSchema.validateAsync(req.body, {
-    abortEarly: false,
-  });
-
-  const user = await userService.updateUser(req.user._id, validatedUserInfo);
-  res.json({ message: messages.USER_UPDATED, user });
+  const user = await userService.updateUser(req.user._id, req.body);
+  res.json({ message: 'Информация успешно обновлена', user });
 };
 
 module.exports.updateAvatar = async (req, res) => {
-  const validatedAvatar = await userAvatarSchema.validateAsync(req.body, {
-    abortEarly: false,
-  });
-
-  const user = await userService.updateAvatar(req.user._id, validatedAvatar);
-  res.json({ message: messages.AVATAR_UPDATED, user });
+  const user = await userService.updateUser(req.user._id, req.body);
+  res.json({ message: 'Аватар успешно обновлен', user });
 };
 
 module.exports.login = async (req, res) => {
-  const validatedUser = await loginSchema.validateAsync(req.body, {
-    abortEarly: false,
-  });
-  const checkedUser = await userService.checkUser(validatedUser);
+  const checkedUser = await userService.checkUser(req.body);
   const accessToken = tokenService.generate({ _id: checkedUser._id });
-  res.send({ accessToken });
+  res.send({ message: 'Аутентификация успешно пройдена', accessToken });
 };
 
 module.exports.getMyself = async (req, res) => {

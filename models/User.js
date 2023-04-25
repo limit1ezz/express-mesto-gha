@@ -20,11 +20,10 @@ const userSchema = new mongoose.Schema({
     default:
       'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
     validate: {
-      validator: (v) =>
-        validator.isURL(v, {
-          protocols: ['http', 'https'],
-          require_protocol: true,
-        }),
+      validator: (v) => validator.isURL(v, {
+        protocols: ['http', 'https'],
+        require_protocol: true,
+      }),
       message: messages.NOT_VALID_URL,
     },
   },
@@ -44,4 +43,4 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('user', userSchema);

@@ -13,11 +13,10 @@ const cardSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator: (v) =>
-        validator.isURL(v, {
-          protocols: ['http', 'https'],
-          require_protocol: true,
-        }),
+      validator: (v) => validator.isURL(v, {
+        protocols: ['http', 'https'],
+        require_protocol: true,
+      }),
       message: messages.NOT_VALID_URL,
     },
   },
@@ -37,8 +36,8 @@ const cardSchema = new mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    default: Date.now(),
+    default: Date.now,
   },
 });
 
-module.exports = mongoose.model('Card', cardSchema);
+module.exports = mongoose.model('card', cardSchema);
