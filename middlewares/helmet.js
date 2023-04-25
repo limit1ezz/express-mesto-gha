@@ -21,7 +21,7 @@ const configureHelmet = (app) => {
       referrerPolicy: { policy: 'same-origin' },
       /* Enable the X-XSS-Protection header to enable the browser's built-in XSS protection */
       xssFilter: true,
-    })
+    }),
   );
 };
 

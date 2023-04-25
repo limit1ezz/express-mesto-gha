@@ -11,7 +11,7 @@ module.exports.generate = (payload) => {
     NODE_ENV === 'production' ? JWT_SECRET : config.jwtSecret,
     {
       expiresIn: '7d',
-    }
+    },
   );
 
   return accessToken;
@@ -20,7 +20,7 @@ module.exports.generate = (payload) => {
 module.exports.verify = (accessToken) => {
   const verifiedToken = jwt.verify(
     accessToken,
-    NODE_ENV === 'production' ? JWT_SECRET : config.jwtSecret
+    NODE_ENV === 'production' ? JWT_SECRET : config.jwtSecret,
   );
   return verifiedToken;
 };

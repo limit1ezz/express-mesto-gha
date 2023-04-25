@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const chalk = require('chalk');
+const { errors } = require('celebrate');
 const allRoutes = require('./routes/allRoutes');
 const errorHandler = require('./middlewares/errorHandler');
 const config = require('./configurations/config');
@@ -31,13 +32,15 @@ configureHelmet(app);
 app.use(allRoutes);
 
 // Handle errors
+app.use(errors());
 app.use(errorHandler);
 
 // Connect DB and start server
 mongoose.connection.once('open', () => {
   console.log(chalk.blue('Mongoose connected'));
   app.listen(config.port, () =>
-    console.log(chalk.bgBlue(`Server started on port ${config.port}`)));
+    console.log(chalk.bgBlue(`Server started on port ${config.port}`)),
+  );
 });
 
 mongoose.connection.on('error', (err) => {

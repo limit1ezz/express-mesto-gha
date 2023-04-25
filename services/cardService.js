@@ -1,20 +1,14 @@
 const Card = require('../models/Card');
-
-const { messages } = require('../utils/constants');
-const CreateError = require('../utils/CreateError');
+const NotFound = require('../utils/errors/notFound');
+const Forbidden = require('../utils/errors/forbidden');
 
 module.exports.createCard = async (validatedCard) => {
   const card = await Card.create(validatedCard);
-
-  if (!card) {
-    throw CreateError.internalServer(messages.CREATE_CARD_ERROR);
-  } else {
-    return card;
-  }
+  return card;
 };
 
 module.exports.getCards = async () => {
-  const cards = await Card.find({});
+  const cards = await Card.find({}).populate(['owner', 'likes']).exec();
   return cards;
 };
 
@@ -22,14 +16,14 @@ module.exports.deleteCard = async (cardId, userId) => {
   const card = await Card.findById(cardId);
 
   if (!card) {
-    throw CreateError.notFound(messages.NOT_FOUND_CARD);
+    throw new NotFound('Карточкa не найдена');
   }
 
   if (card.owner.toString() !== userId) {
-    throw CreateError.forbidden(messages.FORBIDDEN_ERROR);
+    throw new Forbidden('Удаление чужих карточек запрещено');
   }
 
-  await Card.findByIdAndRemove(cardId);
+  await card.deleteOne();
   return card;
 };
 
@@ -37,16 +31,13 @@ module.exports.likeCard = async (cardId, userId) => {
   const card = await Card.findByIdAndUpdate(
     cardId,
     { $addToSet: { likes: userId } },
-    { new: true }
+    { new: true },
   )
-    .populate({
-      path: 'likes owner',
-      model: 'User',
-    })
+    .populate(['owner', 'likes'])
     .exec();
 
   if (!card) {
-    throw CreateError.notFound(messages.NOT_FOUND_CARD);
+    throw new NotFound('Карточкa не найдена');
   }
 
   return card;
@@ -56,16 +47,13 @@ module.exports.dislikeCard = async (cardId, userId) => {
   const card = await Card.findByIdAndUpdate(
     cardId,
     { $pull: { likes: userId } },
-    { new: true }
+    { new: true },
   )
-    .populate({
-      path: 'likes owner',
-      model: 'User',
-    })
+    .populate(['owner', 'likes'])
     .exec();
 
   if (!card) {
-    throw CreateError.notFound(messages.NOT_FOUND_CARD);
+    throw new NotFound('Карточкa не найдена');
   }
 
   return card;

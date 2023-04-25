@@ -1,17 +1,12 @@
 const cardService = require('../services/cardService');
-const { messages, codes } = require('../utils/constants');
-const { newCardSchema, cardIdSchema } = require('../schemas/cardSchemas');
+const { codes } = require('../utils/constants');
 
 module.exports.createCard = async (req, res) => {
-  const validatedCard = await newCardSchema.validateAsync(req.body, {
-    abortEarly: false,
-  });
-
   const card = await cardService.createCard({
-    ...validatedCard,
+    ...req.body,
     owner: req.user._id,
   });
-  res.status(codes.CREATED).json({ message: messages.CARD_CREATED, card });
+  res.status(codes.CREATED).json({ message: 'Карточка успешно создана', card });
 };
 
 module.exports.getCards = async (req, res) => {
@@ -20,25 +15,16 @@ module.exports.getCards = async (req, res) => {
 };
 
 module.exports.deleteCard = async (req, res) => {
-  const cardId = await cardIdSchema.validateAsync(req.params.cardId, {
-    abortEarly: false,
-  });
-  const deletedCard = await cardService.deleteCard(cardId, req.user._id);
-  res.json({ message: messages.CARD_DELETED, deletedCard });
+  const card = await cardService.deleteCard(req.params.cardId, req.user._id);
+  res.json({ message: 'Карточка успешно удалена', card });
 };
 
 module.exports.likeCard = async (req, res) => {
-  const cardId = await cardIdSchema.validateAsync(req.params.cardId, {
-    abortEarly: false,
-  });
-  const likedCard = await cardService.likeCard(cardId, req.user._id);
-  res.json({ message: messages.CARD_LIKED, likedCard });
+  const card = await cardService.likeCard(req.params.cardId, req.user._id);
+  res.json({ message: 'Лайк поставлен', card });
 };
 
 module.exports.dislikeCard = async (req, res) => {
-  const cardId = await cardIdSchema.validateAsync(req.params.cardId, {
-    abortEarly: false,
-  });
-  const dislikedCard = await cardService.dislikeCard(cardId, req.user._id);
-  res.json({ message: messages.CARD_DISLIKED, dislikedCard });
+  const card = await cardService.dislikeCard(req.params.cardId, req.user._id);
+  res.json({ message: 'Лайк удален', card });
 };
