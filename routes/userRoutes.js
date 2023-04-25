@@ -3,17 +3,17 @@ const asyncHandler = require('../utils/asyncHandler');
 
 const {
   getUsers,
-  createUser,
   getUser,
   updateUser,
   updateAvatar,
+  getMyself,
 } = require('../controllers/userController');
 
 const router = express.Router();
 
 router.get('/', asyncHandler(getUsers));
+router.get('/me', asyncHandler(getMyself));
 router.get('/:userId', asyncHandler(getUser));
-router.post('/', asyncHandler(createUser));
 router.patch('/me', asyncHandler(updateUser));
 router.patch('/me/avatar', asyncHandler(updateAvatar));
 

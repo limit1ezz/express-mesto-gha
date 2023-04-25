@@ -12,6 +12,8 @@
     "comma-dangle": "off",
     "consistent-return": "off",
     "no-console": "off",
+    "newline-per-chained-call": "off",
+    "implicit-arrow-linebreak": "off",
     "no-underscore-dangle": [
       "error",
       {

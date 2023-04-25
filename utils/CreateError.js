@@ -19,8 +19,16 @@ class CreateError extends Error {
     return new CreateError(codes.NOT_FOUND, msg);
   }
 
+  static forbidden(msg) {
+    return new CreateError(codes.FORBIDDEN, msg);
+  }
+
   static unauthorized(msg) {
     return new CreateError(codes.UNAUTHORIZED, msg);
+  }
+
+  static conflict(msg) {
+    return new CreateError(codes.CONFLICT, msg);
   }
 }
 

@@ -10,10 +10,13 @@ const configureHelmet = require('./middlewares/helmet');
 
 require('dotenv').config();
 
+// Get environment variables
+const { NODE_ENV, DB_URL } = process.env;
+
 const app = express();
 
 // Connect to database
-mongoose.connect(config.dbURL);
+mongoose.connect(NODE_ENV === 'production' ? DB_URL : config.dbURL);
 
 // Connect logger
 app.use(loger);
@@ -24,14 +27,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(limiter);
 configureHelmet(app);
 
-// Configure user ID
-app.use((req, res, next) => {
-  req.user = {
-    _id: '6439a6e65399547055505d0a',
-  };
-  next();
-});
-
 // Use all routes
 app.use(allRoutes);
 
@@ -41,7 +36,8 @@ app.use(errorHandler);
 // Connect DB and start server
 mongoose.connection.once('open', () => {
   console.log(chalk.blue('Mongoose connected'));
-  app.listen(config.port, () => console.log(chalk.bgBlue(`Server started on port ${config.port}`)));
+  app.listen(config.port, () =>
+    console.log(chalk.bgBlue(`Server started on port ${config.port}`)));
 });
 
 mongoose.connection.on('error', (err) => {
