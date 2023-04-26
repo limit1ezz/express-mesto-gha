@@ -38,9 +38,7 @@ app.use(errorHandler);
 // Connect DB and start server
 mongoose.connection.once('open', () => {
   console.log(chalk.blue('Mongoose connected'));
-  app.listen(config.port, () =>
-    console.log(chalk.bgBlue(`Server started on port ${config.port}`)),
-  );
+  app.listen(config.port, () => console.log(chalk.bgBlue(`Server started on port ${config.port}`)));
 });
 
 mongoose.connection.on('error', (err) => {

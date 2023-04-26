@@ -21,12 +21,17 @@ module.exports.getUser = async (req, res) => {
 };
 
 module.exports.updateUser = async (req, res) => {
-  const user = await userService.updateUser(req.user._id, req.body);
+  const user = await userService.updateUser(req.user._id, {
+    name: req.body.name,
+    about: req.body.about,
+  });
   res.json({ message: 'Информация успешно обновлена', user });
 };
 
 module.exports.updateAvatar = async (req, res) => {
-  const user = await userService.updateUser(req.user._id, req.body);
+  const user = await userService.updateUser(req.user._id, {
+    avatar: req.body.avatar,
+  });
   res.json({ message: 'Аватар успешно обновлен', user });
 };
 
