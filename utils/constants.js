@@ -23,7 +23,7 @@ module.exports.regexp = {
 module.exports.allowedCors = [
   'http://practicum-cyrillgalkin.nomoredomains.monster/',
   'https://practicum-cyrillgalkin.nomoredomains.monster/',
-  'http://localhost:3000/',
+  'http://localhost:3000',
 ];
 
 module.exports.DEFAULT_ALLOWED_METHODS = 'GET,POST,PUT,PATCH,DELETE';
