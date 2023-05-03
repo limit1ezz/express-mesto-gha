@@ -1,12 +1,14 @@
 const cardService = require('../services/cardService');
-const { codes } = require('../utils/constants');
+const { statusCodes } = require('../utils/constants');
 
 module.exports.createCard = async (req, res) => {
   const card = await cardService.createCard({
     ...req.body,
     owner: req.user._id,
   });
-  res.status(codes.CREATED).json({ message: 'Карточка успешно создана', card });
+  res
+    .status(statusCodes.CREATED)
+    .json({ message: 'Карточка успешно создана', card });
 };
 
 module.exports.getCards = async (req, res) => {

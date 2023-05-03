@@ -3,12 +3,16 @@ const NotFound = require('../utils/errors/notFound');
 const Forbidden = require('../utils/errors/forbidden');
 
 module.exports.createCard = async (validatedCard) => {
-  const card = await Card.create(validatedCard);
-  return card;
+  const { _id } = await Card.create(validatedCard);
+  const populatedCard = await Card.findById(_id)
+    .populate(['owner'])
+    .lean()
+    .exec();
+  return populatedCard;
 };
 
 module.exports.getCards = async () => {
-  const cards = await Card.find({}).populate(['owner', 'likes']).exec();
+  const cards = await Card.find({}).populate(['owner', 'likes']).lean().exec();
   return cards;
 };
 
@@ -34,6 +38,7 @@ module.exports.likeCard = async (cardId, userId) => {
     { new: true },
   )
     .populate(['owner', 'likes'])
+    .lean()
     .exec();
 
   if (!card) {
