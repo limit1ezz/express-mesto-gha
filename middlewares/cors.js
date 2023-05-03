@@ -1,5 +1,4 @@
 const allowedOrigins = [
-  'http://localhost:3001',
   'http://practicum-cyrillgalkin.nomoredomains.monster',
   'https://practicum-cyrillgalkin.nomoredomains.monster',
   'http://www.practicum-cyrillgalkin.nomoredomains.monster',
