@@ -18,3 +18,11 @@ module.exports.regexp = {
   URL: '^(https?:\\/\\/)(www\\.)?[^\\s$.?#].[^\\s]*$',
   ID: '^[0-9a-fA-F]{24}$',
 };
+
+module.exports.allowedCors = [
+  'http://practicum-cyrillgalkin.nomoredomains.monster/',
+  'https://practicum-cyrillgalkin.nomoredomains.monster/',
+];
+
+module.exports.DEFAULT_ALLOWED_METHODS = 'GET,POST';
+// ,PUT,PATCH,DELETE

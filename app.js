@@ -9,6 +9,7 @@ const routes = require('./routes');
 const errorHandler = require('./middlewares/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const limiter = require('./middlewares/limiter');
+const cors = require('./middlewares/cors');
 
 require('dotenv').config();
 
@@ -21,6 +22,7 @@ const app = express();
 mongoose.connect(NODE_ENV === 'production' ? DB_URL : config.get('dbURL'));
 
 // Configure middleware
+app.use(cors);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(limiter);
