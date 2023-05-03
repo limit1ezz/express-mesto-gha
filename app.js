@@ -2,43 +2,49 @@ const express = require('express');
 const mongoose = require('mongoose');
 const chalk = require('chalk');
 const { errors } = require('celebrate');
-const allRoutes = require('./routes/allRoutes');
+const config = require('config');
+const helmet = require('helmet');
+const helmetConfig = require('./middlewares/helmet');
+const routes = require('./routes');
 const errorHandler = require('./middlewares/errorHandler');
-const config = require('./configurations/config');
-const loger = require('./middlewares/logger');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 const limiter = require('./middlewares/limiter');
-const configureHelmet = require('./middlewares/helmet');
 
 require('dotenv').config();
 
 // Get environment variables
-const { NODE_ENV, DB_URL } = process.env;
+const { NODE_ENV, DB_URL, PORT } = process.env;
 
 const app = express();
 
 // Connect to database
-mongoose.connect(NODE_ENV === 'production' ? DB_URL : config.dbURL);
-
-// Connect logger
-app.use(loger);
+mongoose.connect(NODE_ENV === 'production' ? DB_URL : config.get('dbURL'));
 
 // Configure middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(limiter);
-configureHelmet(app);
+app.use(helmet(helmetConfig));
+
+// Connect request logger
+app.use(requestLogger);
 
 // Use all routes
-app.use(allRoutes);
+app.use(routes);
+
+// Connect errorlogger
+app.use(errorLogger);
 
 // Handle errors
 app.use(errors());
 app.use(errorHandler);
 
 // Connect DB and start server
+const port = NODE_ENV === 'production' ? PORT : config.get('port');
+
 mongoose.connection.once('open', () => {
   console.log(chalk.blue('Mongoose connected'));
-  app.listen(config.port, () => console.log(chalk.bgBlue(`Server started on port ${config.port}`)));
+  app.listen(port, () => console.log(chalk.bgBlue(`Server started on port ${port}`)));
 });
 
 mongoose.connection.on('error', (err) => {
