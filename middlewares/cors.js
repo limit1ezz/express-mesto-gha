@@ -6,7 +6,7 @@ const allowedOrigins = [
 ];
 
 const corsOptions = {
-  origin(origin, callback) {
+  origin: (origin, callback) => {
     if (allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
