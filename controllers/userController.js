@@ -1,12 +1,12 @@
 const userService = require('../services/userService');
 const tokenService = require('../services/tokenService');
 
-const { codes } = require('../utils/constants');
+const { statusCodes } = require('../utils/constants');
 
 module.exports.createUser = async (req, res) => {
   const user = await userService.createUser(req.body);
   res
-    .status(codes.CREATED)
+    .status(statusCodes.CREATED)
     .json({ message: 'Пользователь успешно создан', user });
 };
 

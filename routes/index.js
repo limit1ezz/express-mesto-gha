@@ -11,6 +11,13 @@ const router = express.Router();
 router.use('/', homeRoutes);
 router.use('/users', auth, userRoutes);
 router.use('/cards', auth, cardRoutes);
+
+router.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
+
 router.all('*', auth, (req, res, next) => next(new NotFound('Страница не найдена')));
 
 module.exports = router;

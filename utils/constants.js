@@ -6,6 +6,7 @@ module.exports.statusCodes = {
   FORBIDDEN: 403,
   UNAUTHORIZED: 401,
   CONFLICT: 409,
+  NO_CONTENT: 204,
 };
 
 module.exports.messages = {
